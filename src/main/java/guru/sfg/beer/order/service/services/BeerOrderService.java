@@ -18,14 +18,18 @@
 package guru.sfg.beer.order.service.services;
 
 
+import guru.sfg.beer.order.service.domain.BeerOrder;
 import guru.sfg.beer.order.service.web.model.BeerOrderDto;
 import guru.sfg.beer.order.service.web.model.BeerOrderPagedList;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface BeerOrderService {
     BeerOrderPagedList listOrders(UUID customerId, Pageable pageable);
+
+    List<BeerOrderDto> listAllOrders();
 
     BeerOrderDto placeOrder(UUID customerId, BeerOrderDto beerOrderDto);
 
