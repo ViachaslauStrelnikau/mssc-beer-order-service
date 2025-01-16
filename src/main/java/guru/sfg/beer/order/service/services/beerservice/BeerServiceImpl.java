@@ -1,14 +1,17 @@
 package guru.sfg.beer.order.service.services.beerservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class BeerServiceImpl implements BeerService {
 
@@ -23,20 +26,26 @@ public class BeerServiceImpl implements BeerService {
             @Value("${sfg.brewary.beer-service-host}") String beerServiceHost,
             RestTemplateBuilder builder) {
         this.BEER_SERVICE_HOST = beerServiceHost;
-        this.FIND_BY_ID_PATH=findByIdPath;
+        this.FIND_BY_ID_PATH = findByIdPath;
         this.FIND_BY_UPC_PATH = findByUpcPath;
         this.restTemplate = builder.build();
     }
 
     @Override
     public BeerDto getBeerByUpc(String upc) {
-        ResponseEntity<BeerDto> responseEntity = restTemplate.exchange(BEER_SERVICE_HOST + FIND_BY_UPC_PATH, HttpMethod.GET, null, BeerDto.class, upc);
-        return responseEntity.getBody();
+        try {
+            ResponseEntity<BeerDto> responseEntity = restTemplate.exchange(BEER_SERVICE_HOST + FIND_BY_UPC_PATH, HttpMethod.GET, null, BeerDto.class, upc);
+            return responseEntity.getBody();
+
+        } catch (ResourceAccessException e) {
+            log.error("Cant fetch beer from service");
+            return null;
+        }
     }
 
     @Override
     public BeerDto getBeerById(UUID id) {
-        ResponseEntity<BeerDto> responseEntity = restTemplate.getForEntity(BEER_SERVICE_HOST + FIND_BY_ID_PATH+id.toString(), BeerDto.class);
+        ResponseEntity<BeerDto> responseEntity = restTemplate.getForEntity(BEER_SERVICE_HOST + FIND_BY_ID_PATH + id.toString(), BeerDto.class);
         return responseEntity.getBody();
     }
 }
