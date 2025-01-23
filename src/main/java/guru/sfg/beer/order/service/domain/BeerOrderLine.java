@@ -22,6 +22,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -50,6 +52,7 @@ public class BeerOrderLine extends BaseEntity {
     @ManyToOne
     private BeerOrder beerOrder;
 
+    @JdbcType(VarcharJdbcType.class)
     private UUID beerId;
     private String upc;
     private Integer orderQuantity = 0;

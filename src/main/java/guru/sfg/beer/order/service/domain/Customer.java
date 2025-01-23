@@ -23,6 +23,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 import java.sql.Timestamp;
 import java.util.Set;
@@ -49,6 +51,7 @@ public class Customer extends BaseEntity {
     private String customerName;
 
     @Column(length = 36, columnDefinition = "varchar(36)")
+    @JdbcType(VarcharJdbcType.class)
     private UUID apiKey;
 
     @OneToMany(mappedBy = "customer")
