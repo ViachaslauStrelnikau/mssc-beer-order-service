@@ -1,7 +1,7 @@
 package guru.sfg.beer.order.service.web.controllers;
 
 import guru.sfg.beer.order.service.services.BeerOrderService;
-import guru.sfg.beer.order.service.web.model.BeerOrderDto;
+import guru.sfg.brewery.model.BeerOrderDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
